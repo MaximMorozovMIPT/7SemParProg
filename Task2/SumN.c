@@ -15,4 +15,5 @@ int main(int argc, char* argv[])
     }
 
     printf("Sum = %d\n", sumN);
+    return 0;
 }

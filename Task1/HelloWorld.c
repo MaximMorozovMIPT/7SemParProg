@@ -4,6 +4,8 @@
 int main() 
 {
     int max_threads_id = omp_get_max_threads() - 1;
+    
+    // Every thread waiting when it will be called to print it's id and break the loop
     #pragma omp parallel shared(max_threads_id)
     while(1)
     {
@@ -14,5 +16,7 @@ int main()
             --max_threads_id;
             break;
         }
-    }    
+    }
+
+    return 0;  
 }

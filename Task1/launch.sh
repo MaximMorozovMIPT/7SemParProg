@@ -28,6 +28,6 @@ if [[ -z ${OMP_NUM_THREADS} ]] ; then
     exit 1
 fi
 
-echo "num of threads = ${OMP_NUM_THREADS}"
+# echo "num of threads = ${OMP_NUM_THREADS}"
 
 ./hello

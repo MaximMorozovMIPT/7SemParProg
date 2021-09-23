@@ -4,12 +4,7 @@
 
 int main(int argc, char* argv[]) 
 {
-    if(argc<=1) 
-    {
-        printf("You did not feed me arguments, I will die now :( ...\n");
-        exit(1);
-    }
-
+    printf("Num of threads = %d\n", omp_get_max_threads());
     int N = atoi(argv[1]);
     int sumN = 0;
 

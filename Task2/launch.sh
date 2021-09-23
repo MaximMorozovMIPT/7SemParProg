@@ -37,6 +37,11 @@ if [[ -z ${OMP_NUM_THREADS} ]] ; then
     exit 1
 fi
 
-echo "num of threads = ${OMP_NUM_THREADS}"
+if [[ -z ${N} ]] ; then
+    echo 'Pass number to sum as -n ...'
+    exit 1
+fi
+
+# echo "num of threads = ${OMP_NUM_THREADS}"
 
 ./sum ${N}

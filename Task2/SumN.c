@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
     #pragma omp parallel for reduction(+: sumN) schedule(guided)
     for(int i = 0; i < N; ++i)
     {
-        sumN+=N;
+        sumN+=i;
     }
 
     printf("Sum = %d\n", sumN);

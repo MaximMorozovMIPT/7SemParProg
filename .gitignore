@@ -2,5 +2,6 @@ Task1/hello
 Task2/sum
 Task3/MultiThread/multiarr
 Task3/SingleThread/singlearr
-Task3/multi.txt
-Task3/single.txt
+Task4/MultiThread/multimatr
+Task4/SingleThread/singlematr
+*.txt

@@ -30,6 +30,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 
+// Here we count (n!!)
 double GetDoubleFact(int n)
 {
     if (n <= 0)
@@ -38,7 +39,8 @@ double GetDoubleFact(int n)
     }
 
     double fact = 1;
-    int i = (n % 2 == 1) ? 1 : 2;
+    // Need this choice cause we should multiply only odd or even numbers
+    int i = (n % 2 == 1) ? 1 : 2; 
     for(i; i <= n; i+=2)
     {
         fact*=i;

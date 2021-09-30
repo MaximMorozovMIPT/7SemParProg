@@ -23,6 +23,15 @@ while (( "$#" )); do
         exit 1
       fi
       ;;
+    -t|--threads)
+      if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
+        export OMP_NUM_THREADS=$2
+        shift 2
+      else
+        echo "Error: Argument for $1 is missing" >&2
+        exit 1
+      fi
+      ;;
     -*|--*=) # unsupported flags
       echo "Error: Unsupported flag $1" >&2
       exit 1
@@ -46,4 +55,9 @@ if [[ -z ${RANDOM_SEED} ]] ; then
     echo "RANDOM_SEED = ${RANDOM_SEED}"
 fi
 
-./singlematr ${NUM_ROWS_ONE} ${NUM_COLS_ONE} ${NUM_COLS_TWO} ${RANDOM_SEED}
+if [[ -z ${OMP_NUM_THREADS} ]] ; then
+    echo 'Pass number of threads in script or setup the env OMP_NUM_THREADS'
+    exit 1
+fi
+
+./multimatr ${NUM_ROWS_ONE} ${NUM_COLS_ONE} ${NUM_COLS_TWO} ${RANDOM_SEED}

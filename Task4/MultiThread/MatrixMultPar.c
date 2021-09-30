@@ -5,15 +5,21 @@
 
 int main(int argc, char* argv[])
 {
+    printf("Num of threads = %d\n", omp_get_max_threads());
+
+    // Seed to make random values equal in this and single thread program
     int randomSeed = atoi(argv[4]);
     srand(randomSeed);
 
+    // Init sizes of matrices
     int numRows1 = atoi(argv[1]);
     int numColumns1 = atoi(argv[2]);
     int numRows2 = atoi(argv[2]);
     int numColumns2 = atoi(argv[3]);
 
-    printf("HERE\n");
+    // Dont use parallel init for matrices cause they will be different with single thread init
+
+    // Init first matrix with random values
     int **matrix1 = (int **)calloc(numRows1, sizeof(int*));
     int i, j;
     for(i = 0; i < numRows1; ++i)
@@ -25,6 +31,7 @@ int main(int argc, char* argv[])
         }
     }
 
+    //Init second matrix with random values
     int **matrix2 = (int **)calloc(numRows2, sizeof(int*));
     for(i = 0; i < numRows2; ++i)
     {
@@ -35,24 +42,29 @@ int main(int argc, char* argv[])
         }
     }
 
+    // Alloc memory for third matrix
+    // Do it in parrallel way cause matrices can be big
+    // Use dynamic cause any thread can be stressed be other programs
     int **matrix3 = (int **)calloc(numRows1, sizeof(int*));
-    #pragma omp parallel for private(i) shared(matrix3) schedule(guided)
+    #pragma omp parallel for private(i) shared(matrix3) schedule(dynamic)
     for(i = 0; i < numRows1; ++i)
     {
         matrix3[i] = (int *)calloc(numColumns2, sizeof(int));
     }
 
     int k;
+    // Multiply matrices one and two
+    // Use dynamic cause any thread can be stressed be other programs
+    // Use collapse to parallel calculations for every element in third matrix
     #pragma omp parallel for \
     private(i, j, k) \
     shared(matrix1, matrix2, matrix3) \
-    schedule(guided) \
+    schedule(dynamic) \
     collapse(2)
     for(i = 0; i < numRows1; ++i)
     {
         for(j = 0; j < numColumns2; ++j)
         {
-            int val = 0;
             for(k = 0; k < numColumns1; ++k)
             {
                 matrix3[i][j] += matrix1[i][k] * matrix2[k][j];
@@ -60,6 +72,7 @@ int main(int argc, char* argv[])
         }
     }
 
+    // Write third matrix into txt to compare results with singlethread program
     FILE * pFile;
     pFile = fopen ("../multi.txt", "w");
     for(int i = 0; i < numRows1; ++i)
@@ -72,6 +85,7 @@ int main(int argc, char* argv[])
     }
     fclose (pFile);
 
+    // Free all memory
     for(int i = 0; i < numRows1; ++i)
     {
         free(matrix1[i]);

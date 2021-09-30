@@ -4,14 +4,17 @@
 
 int main(int argc, char* argv[])
 {
+    // Seed to make random values equal in this and multi thread program
     int randomSeed = atoi(argv[4]);
-    srand(randomSeed);   // Initialization, should only be called once.
+    srand(randomSeed);
 
+    // Init sizes of matrices
     int numRows1 = atoi(argv[1]);
     int numColumns1 = atoi(argv[2]);
     int numRows2 = atoi(argv[2]);
     int numColumns2 = atoi(argv[3]);
 
+    //Init first matrix with random values
     int **matrix1 = (int **)calloc(numRows1, sizeof(int*));
     for(int i = 0; i < numRows1; ++i)
     {
@@ -22,6 +25,7 @@ int main(int argc, char* argv[])
         }
     }
 
+    //Init second matrix with random values
     int **matrix2 = (int **)calloc(numRows2, sizeof(int*));
     for(int i = 0; i < numRows2; ++i)
     {
@@ -32,17 +36,18 @@ int main(int argc, char* argv[])
         }
     }
 
+    // Alloc memory for third matrix
     int **matrix3 = (int **)calloc(numRows1, sizeof(int*));
     for(int i = 0; i < numRows1; ++i)
     {
         matrix3[i] = (int *)calloc(numColumns2, sizeof(int));
     }
 
+    // Multiply matrices one and two
     for(int i = 0; i < numRows1; ++i)
     {
         for(int j = 0; j < numColumns2; ++j)
         {
-            int val = 0;
             for(int k = 0; k < numColumns1; ++k)
             {
                 matrix3[i][j] += matrix1[i][k] * matrix2[k][j];
@@ -50,6 +55,7 @@ int main(int argc, char* argv[])
         }
     }
 
+    // Write third matrix into txt to compare results with multithread program
     FILE * pFile;
     pFile = fopen ("../single.txt", "w");
     for(int i = 0; i < numRows1; ++i)
@@ -62,6 +68,7 @@ int main(int argc, char* argv[])
     }
     fclose (pFile);
 
+    // Free all memory
     for(int i = 0; i < numRows1; ++i)
     {
         free(matrix1[i]);

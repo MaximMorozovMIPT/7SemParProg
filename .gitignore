@@ -4,4 +4,7 @@ Task3/MultiThread/multiarr
 Task3/SingleThread/singlearr
 Task4/MultiThread/multimatr
 Task4/SingleThread/singlematr
+Task5/ArcSin/asin
+Task5/Exponent/exp
+.vscode
 *.txt

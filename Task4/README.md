@@ -1,6 +1,6 @@
 ##  Matrix multiplication
 
-Common options for siglethread and multithread programs 
+Common options for singlethread and multithread programs 
 
 `-s` sets the size of arrays, takes 3 numbers cause we don't need number of rows in second array
 

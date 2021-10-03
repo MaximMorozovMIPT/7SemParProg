@@ -6,5 +6,8 @@ Task4/MultiThread/multimatr
 Task4/SingleThread/singlematr
 Task5/ArcSin/asin
 Task5/Exponent/exp
+Task6/Eratosthenes/eratosth
+Task6/MultiThread/prime
+Task6/SingleThread/prime
 .vscode
 *.txt

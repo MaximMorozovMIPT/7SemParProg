@@ -17,9 +17,9 @@ int main(int argc, char* argv[])
     int numIter = atoi(argv[1]);
 
     int i = 1;
-    // Use reduction to give every thread his own copy of exp
+    // Use reduction to give every thread his own copy of asin
     // Use dynamic cause count factorial is O(n) algorithm
-    #pragma omp parallel for private(i) reduction(+: asin) schedule(dynamic)
+    #pragma omp parallel for private(i, addition) reduction(+: asin) schedule(dynamic)
     for(i = 0; i < numIter; ++i)
     {
         addition = GetDoubleFact(i * 2 - 1) / GetDoubleFact(i * 2) / (2 * i + 1);

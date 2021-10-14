@@ -42,3 +42,7 @@ How to run:
 ./build.sh
 ./run.sh -l 100 -r <mode_name> -t 4
 ```
+
+Comparision of sorting time of big ordered and random array with 1, 2 and 4 threads
+
+![Alt text](Compare.PNG?raw=true "Title")

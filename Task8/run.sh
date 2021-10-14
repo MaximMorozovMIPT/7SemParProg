@@ -43,8 +43,8 @@ fi
 
 if [[ -z ${LEN} ]] ; then
     export LEN=50
-    echo "Applied default size settings for array length"
-    echo "Length array = ${LEN}"
+    # echo "Applied default size settings for array length"
+    # echo "Length array = ${LEN}"
 fi
 
 if [[ -z ${RANDOM_SEED} ]] ; then

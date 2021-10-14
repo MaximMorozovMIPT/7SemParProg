@@ -43,6 +43,8 @@ How to run:
 ./run.sh -l 100 -r <mode_name> -t 4
 ```
 
+Note: In `input.txt` or in command line type only elements of array, cause it's length should be passed to run script with `-l` option
+
 Comparision of sorting time of big ordered and random array with 1, 2 and 4 threads
 
 ![Alt text](Compare.PNG?raw=true "Title")

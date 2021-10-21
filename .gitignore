@@ -12,5 +12,8 @@ Task6/SingleThread/prime
 Task8/sort
 Task8/sorted.txt
 bugged_progs/b*
+Lab/Common/common
+Lab/Personal/personal
 .vscode
 *.txt
+!Lab/*/single.txt

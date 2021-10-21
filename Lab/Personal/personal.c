@@ -20,24 +20,12 @@ int main(int argc, char **argv)
     int rows_num_last = ISIZE - rows_per_thread * (world_size - 1);
     
     int i, j;
-    
+
     if(world_rank == 0)
     {
         printf("Number of threads is %d ", world_size);
 
         double* a = (double*)calloc(ISIZE * JSIZE, sizeof(double));
-
-        // Count time of work algorithm
-        struct timeval begin, end;
-        gettimeofday(&begin, 0);
-
-        for (i=0; i<rows_per_thread; i++)
-        {
-            for (j=0; j<JSIZE; j++)
-            {
-                a[i*ISIZE + j] = 10*i +j;
-            }
-        }
 
         int shift = rows_per_thread * JSIZE;
         if(world_size > 1)
@@ -50,6 +38,20 @@ int main(int argc, char **argv)
             MPI_Recv(&a[shift*(world_size - 1)], rows_num_last * JSIZE, MPI_DOUBLE, world_size - 1, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
 
+        // Count time of work algorithm
+        struct timeval begin, lowmid, highmid, end;
+        gettimeofday(&begin, 0);
+
+        for (i=0; i<rows_per_thread; i++)
+        {
+            for (j=0; j<JSIZE; j++)
+            {
+                a[i*ISIZE + j] = 10*i +j;
+            }
+        }
+
+        gettimeofday(&lowmid, 0);
+
         if(world_size > 1)
         {
             for (int i = 1; i < world_size - 1; ++i) {
@@ -60,6 +62,8 @@ int main(int argc, char **argv)
             MPI_Send(&a[shift*(world_size - 1) - 8 * JSIZE], rows_num_last * JSIZE + 8 * JSIZE, MPI_DOUBLE, world_size - 1, SEND_TAG, MPI_COMM_WORLD);
         }
 
+        gettimeofday(&highmid, 0);
+
         for (i=8; i<rows_per_thread; i++)
         {
             for (j = 0; j < JSIZE-3; j++)
@@ -67,6 +71,13 @@ int main(int argc, char **argv)
                 a[i * JSIZE + j] = sin(0.00001*a[(i-8) * JSIZE + j + 3]);
             }
         }
+
+        // Count time of work
+        gettimeofday(&end, 0);
+        long seconds = end.tv_sec - begin.tv_sec;
+        long microseconds = end.tv_usec - begin.tv_usec;
+        double elapsed = seconds + microseconds * 1e-6;
+        printf("Elapsed time  %.10fs\n", elapsed);
 
         if(world_size > 1)
         {
@@ -77,13 +88,6 @@ int main(int argc, char **argv)
 
             MPI_Recv(&a[shift*(world_size - 1)], rows_num_last * JSIZE, MPI_DOUBLE, world_size - 1, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
-
-        // Count time of work
-        gettimeofday(&end, 0);
-        long seconds = end.tv_sec - begin.tv_sec;
-        long microseconds = end.tv_usec - begin.tv_usec;
-        double elapsed = seconds + microseconds * 1e-6;
-        printf("Elapsed time  %.10fs\n", elapsed);
 
         FILE *ff;
         ff = fopen("result.txt","w");

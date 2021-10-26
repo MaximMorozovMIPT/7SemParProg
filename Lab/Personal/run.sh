@@ -23,4 +23,4 @@ if [[ -z ${NUM_THREADS} ]] ; then
     exit 1
 fi
 
-mpirun -n ${NUM_THREADS} personal
+mpirun -n ${NUM_THREADS} ./personal
